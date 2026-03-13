@@ -1,8 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "pnpm -r --if-present run build",
-  "installCommand": "pnpm install",
-  "outputDirectory": "artifacts/translation-hub/dist",
   "framework": null,
-  "regions": ["pdx1"]
+  "buildCommand": "cd ../.. && pnpm -r --if-present run build",
+  "installCommand": "cd ../.. && pnpm install",
+  "outputDirectory": "dist"
 }
