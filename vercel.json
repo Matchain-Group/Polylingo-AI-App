@@ -3,12 +3,7 @@
   "buildCommand": "pnpm -r --if-present run build",
   "installCommand": "pnpm install",
   "framework": null,
-  "build": {
-    "env": {
-      "PORT": "3000",
-      "NODE_ENV": "production"
-    }
-  },
+  "outputDirectory": "artifacts/translation-hub/dist",
   "env": {
     "PORT": "3000",
     "NODE_ENV": "production"
