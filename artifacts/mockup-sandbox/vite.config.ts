@@ -27,22 +27,3 @@ export default defineConfig({
     host: "0.0.0.0",
   },
 });
-```
-
-Commit changes ✅
-
----
-
-## What changed
-- Removed `PORT` requirement — hardcoded `3000` instead
-- Removed `BASE_PATH` requirement
-- Removed all Replit-specific plugins (`runtimeErrorOverlay`, `cartographer`)
-- Kept all the important stuff intact
-
----
-
-## Also check translation-hub
-
-It probably has the same `vite.config.ts` issue. Go to:
-```
-artifacts/translation-hub/vite.config.ts
