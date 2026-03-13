@@ -3,5 +3,6 @@
   "buildCommand": "pnpm -r --if-present run build",
   "installCommand": "pnpm install",
   "outputDirectory": "artifacts/translation-hub/dist",
-  "framework": null
+  "framework": null,
+  "regions": ["pdx1"]
 }
