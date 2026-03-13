@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Translation Hub"
+version = "1.0.0"
+id = "artifacts/translation-hub"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+localPort = 18787
+name = "web"
+paths = ["/"]
+
+[services.development]
+run = "pnpm --filter @workspace/translation-hub run dev"
+
+[services.env]
+PORT = "18787"
+BASE_PATH = "/"
+
+[services.production]
+build = ["pnpm", "--filter", "@workspace/translation-hub", "run", "build"]
+publicDir = "artifacts/translation-hub/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
