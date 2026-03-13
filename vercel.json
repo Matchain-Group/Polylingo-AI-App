@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "buildCommand": "pnpm -r --if-present run build",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "env": {
+    "SKIP_ENV_VALIDATION": "1"
+  }
+}
