@@ -29,6 +29,7 @@
 
 ▶️ **[Click here to watch the full demo](https://github.com/user-attachments/assets/bf02b5f6-2b9a-41b0-85b2-fcc314bf84b3)**
 
+Launch app: https://universal-translator-bot--matchainglobal.replit.app
 ---
 
 ## 📖 What is PolyLingo AI?
