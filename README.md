@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/25964606/README.md)
+[README.md] Full Brief Doc:(https://github.com/user-attachments/files/25965226/PolyLingo-AI-README.1.pdf)
 # 🌐 PolyLingo AI
 ### *Break Every Language Barrier. Instantly.*
 
@@ -9,7 +9,7 @@
 ![Powered by OpenAI](https://img.shields.io/badge/Powered%20by-OpenAI-7B2FBE?style=for-the-badge)
 ![Built by Matchain Group](https://img.shields.io/badge/Built%20by-Matchain%20Group-0D1B2A?style=for-the-badge)
 
-📄 **[Download Full Product Brief (Word Doc)](./PolyLingo-AI-README.docx)**
+📄 **[Download Full Product Brief (Word Doc)](https://github.com/user-attachments/files/25965226/PolyLingo-AI-README.1.pdf)
 
 ---
 
