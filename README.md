@@ -1,4 +1,4 @@
-[README.md] Full Brief Doc:(https://github.com/user-attachments/files/25965226/PolyLingo-AI-README.1.pdf)
+
 # 🌐 PolyLingo AI
 ### *Break Every Language Barrier. Instantly.*
 
