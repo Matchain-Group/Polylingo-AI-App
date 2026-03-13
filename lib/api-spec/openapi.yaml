@@ -1,0 +1,543 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.2.0
+  description: Polylingo AI API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: auth
+    description: Authentication operations
+  - name: translate
+    description: Translation operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterBody"
+      responses:
+        "201":
+          description: User registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Login - sends OTP to email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginBody"
+      responses:
+        "200":
+          description: OTP sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OtpSentResponse"
+        "400":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/verify-otp:
+    post:
+      operationId: verifyOtp
+      tags: [auth]
+      summary: Verify OTP and receive JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyOtpBody"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Invalid or expired OTP
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Logout
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /translate/languages:
+    get:
+      operationId: listLanguages
+      tags: [translate]
+      summary: List supported languages
+      responses:
+        "200":
+          description: List of supported languages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Language"
+
+  /translate/text:
+    post:
+      operationId: translateText
+      tags: [translate]
+      summary: Translate text
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TranslateTextBody"
+      responses:
+        "200":
+          description: Translation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TranslateTextResponse"
+
+  /translate/pdf:
+    post:
+      operationId: translatePdf
+      tags: [translate]
+      summary: Translate PDF content
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TranslatePdfBody"
+      responses:
+        "200":
+          description: Translated PDF content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TranslatePdfResponse"
+
+  /translate/chat:
+    post:
+      operationId: sendChatMessage
+      tags: [translate]
+      summary: Send chat message and get translation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatMessageBody"
+      responses:
+        "200":
+          description: Chat message with translation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatMessageResponse"
+
+  /translate/subtitle:
+    post:
+      operationId: translateSubtitle
+      tags: [translate]
+      summary: Translate subtitle text (streaming)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TranslateSubtitleBody"
+      responses:
+        "200":
+          description: SSE stream of translated subtitle chunks
+          content:
+            text/event-stream: {}
+
+  /translate/project:
+    post:
+      operationId: translateProject
+      tags: [translate]
+      summary: Translate a full project (multiple files/texts)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TranslateProjectBody"
+      responses:
+        "200":
+          description: Translated project files
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TranslateProjectResponse"
+
+  /translate/voice:
+    post:
+      operationId: translateVoice
+      tags: [translate]
+      summary: Transcribe and translate voice audio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TranslateVoiceBody"
+      responses:
+        "200":
+          description: Transcription and translation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TranslateVoiceResponse"
+
+  /translate/telegram/status:
+    get:
+      operationId: getTelegramStatus
+      tags: [translate]
+      summary: Get Telegram bot status
+      responses:
+        "200":
+          description: Bot status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TelegramStatusResponse"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required: [status]
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required: [success]
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, email, name, createdAt]
+
+    RegisterBody:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+      required: [email, password, name]
+
+    LoginBody:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required: [email, password]
+
+    VerifyOtpBody:
+      type: object
+      properties:
+        email:
+          type: string
+        otp:
+          type: string
+      required: [email, otp]
+
+    OtpSentResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        devOtp:
+          type: string
+          description: OTP code (only in development mode)
+      required: [message]
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+      required: [token, user]
+
+    Language:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        nativeName:
+          type: string
+      required: [code, name, nativeName]
+
+    TranslateTextBody:
+      type: object
+      properties:
+        text:
+          type: string
+        targetLanguage:
+          type: string
+        sourceLanguage:
+          type: string
+      required: [text, targetLanguage]
+
+    TranslateTextResponse:
+      type: object
+      properties:
+        translatedText:
+          type: string
+        detectedLanguage:
+          type: string
+        sourceLanguage:
+          type: string
+        targetLanguage:
+          type: string
+      required: [translatedText, targetLanguage]
+
+    TranslatePdfBody:
+      type: object
+      properties:
+        pdfBase64:
+          type: string
+        targetLanguage:
+          type: string
+        sourceLanguage:
+          type: string
+      required: [pdfBase64, targetLanguage]
+
+    TranslatePdfResponse:
+      type: object
+      properties:
+        translatedText:
+          type: string
+        originalText:
+          type: string
+        pageCount:
+          type: integer
+        targetLanguage:
+          type: string
+      required: [translatedText, originalText, targetLanguage]
+
+    ChatMessageBody:
+      type: object
+      properties:
+        message:
+          type: string
+        targetLanguage:
+          type: string
+        sourceLanguage:
+          type: string
+        sessionId:
+          type: string
+      required: [message, targetLanguage]
+
+    ChatMessageResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        originalMessage:
+          type: string
+        translatedMessage:
+          type: string
+        sourceLanguage:
+          type: string
+        targetLanguage:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+      required: [id, originalMessage, translatedMessage, targetLanguage, timestamp]
+
+    TranslateSubtitleBody:
+      type: object
+      properties:
+        text:
+          type: string
+        targetLanguage:
+          type: string
+        sourceLanguage:
+          type: string
+      required: [text, targetLanguage]
+
+    ProjectFile:
+      type: object
+      properties:
+        filename:
+          type: string
+        content:
+          type: string
+      required: [filename, content]
+
+    TranslateProjectBody:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProjectFile"
+        targetLanguage:
+          type: string
+        sourceLanguage:
+          type: string
+      required: [files, targetLanguage]
+
+    TranslatedProjectFile:
+      type: object
+      properties:
+        filename:
+          type: string
+        originalContent:
+          type: string
+        translatedContent:
+          type: string
+      required: [filename, originalContent, translatedContent]
+
+    TranslateProjectResponse:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: "#/components/schemas/TranslatedProjectFile"
+        targetLanguage:
+          type: string
+        totalFiles:
+          type: integer
+      required: [files, targetLanguage, totalFiles]
+
+    TranslateVoiceBody:
+      type: object
+      properties:
+        audioBase64:
+          type: string
+          description: Base64-encoded audio (webm/wav/mp4)
+        targetLanguage:
+          type: string
+        sourceLanguage:
+          type: string
+      required: [audioBase64, targetLanguage]
+
+    TranslateVoiceResponse:
+      type: object
+      properties:
+        transcript:
+          type: string
+        translatedText:
+          type: string
+        detectedLanguage:
+          type: string
+        targetLanguage:
+          type: string
+      required: [transcript, translatedText, targetLanguage]
+
+    TelegramStatusResponse:
+      type: object
+      properties:
+        active:
+          type: boolean
+        message:
+          type: string
+      required: [active, message]
